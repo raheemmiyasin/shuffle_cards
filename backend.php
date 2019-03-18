@@ -15,10 +15,6 @@ try {
         exit;
     }
 
-    // if ($personCount == 0) {
-    //     throw new Exception("Irregularity occurred");
-    // }
-
     //building cards
     $types = array('S', 'H', 'D', 'C');
 
