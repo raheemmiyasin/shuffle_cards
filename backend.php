@@ -6,7 +6,7 @@ try {
     $personCount = isset($_POST['person_no']) ? $_POST['person_no'] : null;
 
     //validate input
-    if ($personCount < 0 || $personCount == null || is_nan($personCount)) {
+    if ($personCount < 0 || $personCount == null || !is_numeric($personCount)) {
 
         //prepare exception response for error to frontend
         $responseObject->status = "Error";
@@ -14,6 +14,10 @@ try {
         echo json_encode($responseObject);
         exit;
     }
+
+    // if ($personCount == 0) {
+    //     throw new Exception("Irregularity occurred");
+    // }
 
     //building cards
     $types = array('S', 'H', 'D', 'C');
@@ -40,19 +44,21 @@ try {
 //distribute cards to each persons hands
 
     $currentCard = 0;
+    //check if person count zero
+    if ($personCount != 0) {
+        while ($currentCard < sizeof($cards)) {
+            for ($j = 0; $j < $personCount; $j++) {
+                if (isset($personCards[$j])) {
+                    $personCards[$j] = $personCards[$j] . ", " . $cards[$currentCard];
+                } else {
+                    $personCards[$j] = $cards[$currentCard];
+                }
+                $currentCard++;
 
-    while ($currentCard < sizeof($cards)) {
-        for ($j = 0; $j < $personCount; $j++) {
-            if (isset($personCards[$j])) {
-                $personCards[$j] = $personCards[$j] . ", " . $cards[$currentCard];
-            } else {
-                $personCards[$j] = $cards[$currentCard];
-            }
-            $currentCard++;
-
-            //stop once all card distributed
-            if ($currentCard == sizeof($cards)) {
-                break;
+                //stop once all card distributed
+                if ($currentCard == sizeof($cards)) {
+                    break;
+                }
             }
         }
     }
@@ -67,7 +73,7 @@ try {
 
     //prepare exception response for error to frontend
     $responseObject->status = "Error";
-    $responseObject->message = "Irregularity occurred";
+    $responseObject->message = $e->getMessage();
     echo json_encode($responseObject);
     exit;
 }

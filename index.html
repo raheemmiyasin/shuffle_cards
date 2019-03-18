@@ -59,7 +59,7 @@
             $(".result-data").remove();
 
             //form validation
-            if (person_no.length < 1 || isNaN(person_no) || person_no < 1) {
+            if (person_no.length < 1 || isNaN(person_no) || person_no < 0) {
                 $('#inputPersonNo').after(
                     '<span class="error text-danger">Input value does not exist or value is invalid</span>'
                 );
