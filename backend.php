@@ -69,7 +69,7 @@ try {
 
     //prepare exception response for error to frontend
     $responseObject->status = "Error";
-    $responseObject->message = $e->getMessage();
+    $responseObject->message = "Irregularity occurred";
     echo json_encode($responseObject);
     exit;
 }
